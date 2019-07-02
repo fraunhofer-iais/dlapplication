@@ -1,6 +1,6 @@
 import sys
-sys.path.append("../../../../../experiments")
-sys.path.append("../../../../../vwframework")
+sys.path.append("../../../../../dlapplication-dev")
+sys.path.append("../../../../../dlplatform-dev")
 
 
 from environments.local_environment import Experiment
@@ -22,7 +22,7 @@ if __name__ == "__main__":
     dim = 4 #skin_segmentation has 4 attributes
     learnerFactory = SklearnBatchLearnerFactory(LogisticRegression, {'regParam' : regParam, 'dim' : dim})
     
-    dsFactory = SVMLightDataSourceFactory("../../../data/classification/skin_segmentation.dat", numberOfNodes, indices = 'roundRobin', shuffle = False)
+    dsFactory = SVMLightDataSourceFactory("../../../../data/classification/skin_segmentation.dat", numberOfNodes, indices = 'roundRobin', shuffle = False)
     stoppingCriterion = MaxAmountExamples(100)
         
     aggregator = Average()

@@ -1,6 +1,6 @@
 import sys
-sys.path.append("../../../../../experiments")
-sys.path.append("../../../../../../vwframework")
+sys.path.append("../../../../../dlapplication-dev")
+sys.path.append("../../../../../dlplatform-dev")
 
 from environments.local_environment import Experiment
 from environments.datasources import FileDataSourceFactory
@@ -27,7 +27,7 @@ if __name__ == "__main__":
     
     aggregator = Average()
     stoppingCriterion = MaxAmountExamples(2800)
-    dsFactory = FileDataSourceFactory(filename = "../../../data/textualMNIST/mnist_train.txt", decoder = MNISTDecoder(), numberOfNodes = numberOfNodes, indices = 'roundRobin', shuffle = False, cache = False)
+    dsFactory = FileDataSourceFactory(filename = "../../../../data/textualMNIST/mnist_train.txt", decoder = MNISTDecoder(), numberOfNodes = numberOfNodes, indices = 'roundRobin', shuffle = False, cache = False)
     learnerFactory = PytorchLearnerFactory(network=MnistNet(), updateRule=updateRule, learningRate=learningRate, learningParams=learningParams, lossFunction=lossFunction, batchSize=batchSize, syncPeriod=syncPeriod, delta=delta)
     initHandler = InitializationHandler()
 

@@ -1,6 +1,6 @@
 import sys
-sys.path.append("../../../../../experiments")
-sys.path.append("../../../../../../vwframework")
+sys.path.append("../../../../../dlapplication-dev")
+sys.path.append("../../../../../dlplatform-dev")
 
 from environments.local_environment import Experiment
 from environments.datasources import FileDataSourceFactory

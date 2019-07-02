@@ -17,16 +17,16 @@ import os
 if __name__ == "__main__":
     username = 'ladilova'
     sysPath = "/home/IAIS/ladilova/vwframework"
-    nodes = ["dpl02.kdlan.iais.fraunhofer.de","dpl03.kdlan.iais.fraunhofer.de"]
+    nodes = ["dpl02.kdlan.iais.fraunhofer.de"]
     
     
-    messengerHost = 'dpl02.kdlan.iais.fraunhofer.de'
+    messengerHost = 'dpl03.kdlan.iais.fraunhofer.de'
     messengerPort = 5672
     messengerUser = 'lina'
     messengerPassword = 'password'
-    numberOfNodes = 5
+    numberOfNodes = 1
     
-    dsFactory = FileDataSourceFactory(filename = "/home/IAIS/ladilova/vwplatform/experiments/data/cifar10/train.csv", decoder = CifarDecoder(), numberOfNodes = numberOfNodes, indices = 'roundRobin', shuffle = False, cache = False)
+    dsFactory = FileDataSourceFactory(filename = "/home/IAIS/ladilova/distributedPL_opensource/dlapplication-dev/data/cifar10/train.csv", decoder = CifarDecoder(), numberOfNodes = numberOfNodes, indices = 'roundRobin', shuffle = False, cache = False)
 
     sync = PeriodicSync()
     syncPeriod = 1

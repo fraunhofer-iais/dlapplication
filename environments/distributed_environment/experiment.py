@@ -38,7 +38,7 @@ class Experiment():
     def runCoordinator(self, name, username, nodes):
         localClusterPath = os.path.dirname(self.expFileName)#self.sysPath + "experiments/experiments/distributed_experiments"
         exp_path = os.path.join(localClusterPath, name + "_" + self.getTimestamp())
-        app_path = os.path.dirname(self.expFileName).split("experiments")[0] + "experiments/"
+        app_path = os.path.dirname(self.expFileName).split("dlapplication-dev")[0] + "dlapplication-dev/"
         os.mkdir(exp_path)
         t = Process(target = self.createCoordinator, args=(exp_path, ), name = 'coordinator')    
         #t.daemon = True

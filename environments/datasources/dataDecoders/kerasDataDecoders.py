@@ -21,13 +21,10 @@ class CifarDecoder(DataDecoder):
         self._numClasses = numClasses
         
     def __call__(self, line):
-        parsed_line = [int(c) for c in line.split(',')]
-        #try:
-        image = np.asarray(parsed_line[1:], dtype='float32').reshape(32, 32, 3) / 255.0
-        #except:
-        #    print(np.asarray(parsed_line[1:], dtype='float32'))
+        parsed_line = [float(c) for c in line.split('\t')[0].split(',')]
+        image = np.asarray(parsed_line, dtype='float32').reshape(32, 32, 3) / 255.0
         label = np.zeros(self._numClasses)
-        label[int(parsed_line[0])] = 1
+        label[int(line.split('\t')[1])] = 1
 
         return image, label
     

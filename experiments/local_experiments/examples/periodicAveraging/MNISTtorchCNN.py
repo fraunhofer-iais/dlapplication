@@ -12,9 +12,11 @@ from DLplatform.learning.factories.pytorchLearnerFactory import PytorchLearnerFa
 from DLplatform.stopping import MaxAmountExamples
 from DLplatform.coordinator import InitializationHandler
 
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+
 if __name__ == "__main__":
-    executionMode = {'device': 'gpu', 'available': ['cuda:0'], 'modelsPer': 5}
-    #executionMode = {'device': 'cpu'}
+    executionMode = 'gpu' # or 'cpu'
 
     messengerHost = 'localhost'
     messengerPort = 5672

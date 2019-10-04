@@ -13,6 +13,7 @@ from DLplatform.stopping import MaxAmountExamples
 from DLplatform.coordinator import InitializationHandler
 
 if __name__ == "__main__":
+    executionMode = 'gpu'
     messengerHost = 'localhost'
     messengerPort = 5672
     numberOfNodes = 6
@@ -30,7 +31,7 @@ if __name__ == "__main__":
     learnerFactory = KerasLearnerFactory(network=MNISTCNNNetwork(), updateRule=updateRule, learningRate=learningRate, lossFunction=lossFunction, batchSize=batchSize, syncPeriod=syncPeriod, delta=delta)
     initHandler = InitializationHandler()
 
-    exp = Experiment(messengerHost = messengerHost, messengerPort = messengerPort,
+    exp = Experiment(executionMode = executionMode, messengerHost = messengerHost, messengerPort = messengerPort,
         numberOfNodes = numberOfNodes, sync = sync,
         aggregator = aggregator, learnerFactory = learnerFactory,
         dataSourceFactory = dsFactory, stoppingCriterion = stoppingCriterion, initHandler = initHandler)

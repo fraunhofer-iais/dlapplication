@@ -9,10 +9,26 @@ import time
 import os
 import pickle
 import numpy as np
+import math
+import subprocess
 
 class Experiment():    
     def __init__(self, executionMode, messengerHost, messengerPort, numberOfNodes, sync, aggregator, learnerFactory, dataSourceFactory, stoppingCriterion, initHandler = InitializationHandler(), sleepTime = 5):
         self.executionMode = executionMode
+        if executionMode == 'cpu':
+            self.devices = None
+            self.modelsPer = None
+        else:
+            self.devices = []
+            if os.environ.get('CUDA_VISIBLE_DEVICES') is None:
+                gpuIds = range(str(subprocess.check_output(["nvidia-smi", "-L"])).count('UUID'))
+            else:
+                gpuIds = os.environ.get('CUDA_VISIBLE_DEVICES').split(',')
+            for id in gpuIds:
+                self.devices.append('cuda:' + str(id))
+            self.modelsPer = math.ceil(numberOfNodes * 1.0 / len(self.devices))
+            print(self.modelsPer, "models per gpu on", ','.join(self.devices))
+
         self.messengerHost = messengerHost
         self.messengerPort = messengerPort
         self.numberOfNodes = numberOfNodes
@@ -35,7 +51,7 @@ class Experiment():
         t.start()
         time.sleep(self.sleepTime)
         for id in range(self.numberOfNodes):
-            t = Process(target = self.createWorker, args=(id, exp_path, self.executionMode, ), name = "worker_" + str(id))
+            t = Process(target = self.createWorker, args=(id, exp_path, self.executionMode, self.devices, self.modelsPer ), name = "worker_" + str(id))
             #t.daemon = True
             t.start()
             time.sleep(self.sleepTime)
@@ -56,19 +72,13 @@ class Experiment():
         print("Starting coordinator...\n")
         coordinator.run()
 
-    def createWorker(self, id, exp_path, executionMode):
+    def createWorker(self, id, exp_path, executionMode, devices, modelsPer):
         print("start creating worker" + str(id))
-        if executionMode['device'] == 'cpu':
-            mode = 'cpu'
+        if executionMode == 'cpu':
             device = None
         else:
-            mode = 'gpu'
-            if int(id) >= len(executionMode['available']) * executionMode['modelsPer']:
-                print("\n! Error of device assigning! More models than execution places (gpu run setup)\n")
-                device = executionMode['available'][0]
-            else:
-                print("device for node", id, "is gpu", id//executionMode['modelsPer'])
-                device = executionMode['available'][id//executionMode['modelsPer']]
+            print("device for node", id, "is gpu", id//modelsPer)
+            device = devices[id//modelsPer]
         nodeId = str(id)
         w = Worker(nodeId)
         dataScheduler = IntervalDataScheduler()
@@ -81,7 +91,7 @@ class Experiment():
         comm.setLearningLogger(commLogger)
         w.setCommunicator(comm)
         logger = LearningLogger(path=exp_path, id="worker" + str(id), level = 'INFO')
-        learner = self.learnerFactory.getLearnerOnDevice(mode, device)
+        learner = self.learnerFactory.getLearnerOnDevice(executionMode, device)
         learner.setLearningLogger(logger)
         learner.setStoppingCriterion(self.stoppingCriterion)
         w.setLearner(learner)

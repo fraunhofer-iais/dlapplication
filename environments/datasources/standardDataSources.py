@@ -21,6 +21,7 @@ class FileDataSource(DataSource):
                     self._cachedData.append(l)
         else:
             self._inputFileHandle = open(filename, "r")
+            self._lineNo = 0
             
         self._indices = getattr(self, indices)(nodeId, numberOfNodes)
         self._shuffle = shuffle
@@ -30,12 +31,38 @@ class FileDataSource(DataSource):
         self._examplesCounter = -1
         self._usedExamplesCounter = 0
 
+    '''
+    When using multiprocessing, the data souce is serialized using pickle (in windows, not so under linux). 
+    However, the file handle cannot be pickled, since it contains a thread.lock object.
+    To avoid this, we implemented the following two functions which govern the behavior of pickle.
+    In here, the file handle object is disregarded and reopened in the child process, later. 
+    We only need to take care to jump to the right line, afterwards, although in practic, this should never happen.
+    '''
+    def __getstate__(self):
+        d = self.__dict__.copy()
+        if '_inputFileHandle' in d:
+            d['_inputFileHandle'] = None
+        return d
+    
+    def __setstate__(self, d):
+        if '_inputFileHandle' in d and d['_inputFileHandle'] == None:
+            d['_inputFileHandle'] = open(d['_filename'], "r")
+            for _ in range(d['_lineNo']):
+                next(d['_inputFileHandle'])
+        self.__dict__.update(d)
+        
     def readLine(self):
-        current_line = self._inputFileHandle.__next__()
+        current_line = "\n"
+        try:
+            current_line = self._inputFileHandle.__next__()
+            self._lineNo += 1
+        except StopIteration:
+            current_line = "\n"
         if current_line == "\n":
             self._inputFileHandle.close()
             self._inputFileHandle = open(self._filename, "r") 
             current_line = self._inputFileHandle.__next__()
+            self._lineNo = 0
             self._examplesCounter = -1
             self.checkEpochEnd()
         return current_line

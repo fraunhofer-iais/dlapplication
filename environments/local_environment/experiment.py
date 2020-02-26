@@ -49,13 +49,18 @@ class Experiment():
         t = Process(target = self.createCoordinator, args=(exp_path, ), name = 'coordinator')    
         #t.daemon = True
         t.start()
+        jobs = [t]
         time.sleep(self.sleepTime)
-        for id in range(self.numberOfNodes):
-            t = Process(target = self.createWorker, args=(id, exp_path, self.executionMode, self.devices, self.modelsPer ), name = "worker_" + str(id))
+        for taskid in range(self.numberOfNodes):
+            t = Process(target = self.createWorker, args=(taskid, exp_path, ), name = "worker_" + str(taskid))
             #t.daemon = True
             t.start()
+            jobs.append(t)
             time.sleep(self.sleepTime)
-        os.waitpid(-1, 0)
+        for job in jobs:
+            job.join()
+        print('experiment done.')
+        #os.waitpid(-1, 0)
 
     def createCoordinator(self, exp_path):
         coordinator = Coordinator()

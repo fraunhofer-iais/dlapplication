@@ -24,8 +24,8 @@ class Experiment():
                 gpuIds = range(str(subprocess.check_output(["nvidia-smi", "-L"])).count('UUID'))
             else:
                 gpuIds = os.environ.get('CUDA_VISIBLE_DEVICES').split(',')
-            for id in gpuIds:
-                self.devices.append('cuda:' + str(id))
+            for taskid in gpuIds:
+                self.devices.append('cuda:' + str(taskid))
             self.modelsPer = math.ceil(numberOfNodes * 1.0 / len(self.devices))
             print(self.modelsPer, "models per gpu on", ','.join(self.devices))
 
@@ -52,7 +52,7 @@ class Experiment():
         jobs = [t]
         time.sleep(self.sleepTime)
         for taskid in range(self.numberOfNodes):
-            t = Process(target = self.createWorker, args=(taskid, exp_path, ), name = "worker_" + str(taskid))
+            t = Process(target = self.createWorker, args=(taskid, exp_path, self.executionMode, self.devices, self.modelsPer), name = "worker_" + str(taskid))
             #t.daemon = True
             t.start()
             jobs.append(t)

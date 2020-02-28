@@ -13,7 +13,7 @@ from DLplatform.stopping import MaxAmountExamples
 from DLplatform.coordinator import InitializationHandler
 
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 if __name__ == "__main__":
     executionMode = 'gpu' # or 'cpu'

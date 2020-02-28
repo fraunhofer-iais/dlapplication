@@ -24,8 +24,8 @@ class Experiment():
                 gpuIds = range(str(subprocess.check_output(["nvidia-smi", "-L"])).count('UUID'))
             else:
                 gpuIds = os.environ.get('CUDA_VISIBLE_DEVICES').split(',')
-            for id in gpuIds:
-                self.devices.append('cuda:' + str(id))
+            for taskid in gpuIds:
+                self.devices.append('cuda:' + str(taskid))
             self.modelsPer = math.ceil(numberOfNodes * 1.0 / len(self.devices))
             print(self.modelsPer, "models per gpu on", ','.join(self.devices))
 

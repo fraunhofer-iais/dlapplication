@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+cd ../examples/periodicAveraging && python MNISTtorchCNN.py && cd ../dynamicAveraging && python MNISTkerasCNN.py

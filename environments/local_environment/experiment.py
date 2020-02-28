@@ -52,7 +52,7 @@ class Experiment():
         jobs = [t]
         time.sleep(self.sleepTime)
         for taskid in range(self.numberOfNodes):
-            t = Process(target = self.createWorker, args=(taskid, exp_path, ), name = "worker_" + str(taskid))
+            t = Process(target = self.createWorker, args=(taskid, exp_path, self.executionMode, self.devices, self.modelsPer, ), name = "worker_" + str(taskid))
             #t.daemon = True
             t.start()
             jobs.append(t)

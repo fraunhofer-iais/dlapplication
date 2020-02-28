@@ -28,7 +28,7 @@ if __name__ == "__main__":
     aggregator = Average()
     sync = AggregationAtTheEnd()
     
-    exp = Experiment(messengerHost = messengerHost, messengerPort = messengerPort, 
+    exp = Experiment(executionMode = 'cpu', messengerHost = messengerHost, messengerPort = messengerPort, 
         numberOfNodes = numberOfNodes, sync = sync, 
         aggregator = aggregator, learnerFactory = learnerFactory, 
         dataSourceFactory = dsFactory, stoppingCriterion = stoppingCriterion, sleepTime=0)

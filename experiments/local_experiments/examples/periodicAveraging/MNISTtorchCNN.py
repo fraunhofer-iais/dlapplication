@@ -13,10 +13,10 @@ from DLplatform.stopping import MaxAmountExamples
 from DLplatform.coordinator import InitializationHandler
 
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+#os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 if __name__ == "__main__":
-    executionMode = 'gpu' # or 'cpu'
+    executionMode = 'cpu' # or 'gpu'
 
     messengerHost = 'localhost'
     messengerPort = 5672

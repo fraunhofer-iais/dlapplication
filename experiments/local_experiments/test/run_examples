@@ -1,2 +1,8 @@
-#!/usr/bin/env bash
-service rabbitmq-server start && cd ../examples/periodicAveraging && python3 MNISTtorchCNN.py && cd ../dynamicAveraging && python3 MNISTkerasCNN.py
+#!/bin/bash
+
+service rabbitmq-server start
+
+cd ../examples/periodicAveraging
+python3 MNISTtorchCNN.py
+#cd ../dynamicAveraging
+#python3 MNISTkerasCNN.py

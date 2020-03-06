@@ -13,7 +13,7 @@ from DLplatform.stopping import MaxAmountExamples
 from DLplatform.coordinator import InitializationHandler
 
 if __name__ == "__main__":
-    executionMode = 'gpu'
+    executionMode = 'cpu' # or 'gpu'
     messengerHost = 'localhost'
     messengerPort = 5672
     numberOfNodes = 6

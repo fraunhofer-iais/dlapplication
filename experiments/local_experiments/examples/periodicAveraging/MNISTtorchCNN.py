@@ -5,7 +5,7 @@ sys.path.append("../../../../../dlplatform-dev")
 from environments.local_environment import Experiment
 from environments.datasources import FileDataSourceFactory
 from environments.datasources.dataDecoders.pytorchDataDecoders import MNISTDecoder
-from utils.models.pytorch.MNISTNetwork import MnistNet
+from dlapplication_utils.models.pytorch.MNISTNetwork import MnistNet
 from DLplatform.synchronizing import PeriodicSync
 from DLplatform.aggregating import Average
 from DLplatform.learning.factories.pytorchLearnerFactory import PytorchLearnerFactory

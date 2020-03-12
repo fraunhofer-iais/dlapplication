@@ -5,7 +5,7 @@ sys.path.append("../../../../dlapplication-dev")
 from environments.distributed_environment import Experiment
 from environments.datasources import FileDataSourceFactory
 from environments.datasources.dataDecoders.kerasDataDecoders import CifarDecoder
-from utils.models.keras.resnetModel import ResNet18_Cifar10_32
+from dlapplication_utils.models.keras.resnetModel import ResNet18_Cifar10_32
 from DLplatform.synchronizing import PeriodicSync
 from DLplatform.aggregating import Average
 from DLplatform.learning.factories.kerasLearnerFactory import KerasLearnerFactory

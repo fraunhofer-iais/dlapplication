@@ -5,7 +5,7 @@ sys.path.append("../../../../dlapplication-dev")
 from environments.distributed_environment import Experiment
 from environments.datasources import FileDataSourceFactory
 from environments.datasources.dataDecoders.pytorchDataDecoders import CifarDecoder
-from utils.models.pytorch.resnet import Cifar10ResNet50
+from dlapplication_utils.models.pytorch.resnet import Cifar10ResNet50
 from DLplatform.synchronizing import PeriodicSync
 from DLplatform.aggregating import Average
 from DLplatform.learning.factories.pytorchLearnerFactory import PytorchLearnerFactory

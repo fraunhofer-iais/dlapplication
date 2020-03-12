@@ -94,6 +94,7 @@ class Experiment():
         commLogger = LearningLogger(path=os.path.join(exp_path,"worker" + str(id)), id="communication", level = 'INFO')
         comm.setLearningLogger(commLogger)
         w.setCommunicator(comm)
+        w.setSynchronizer(self.sync)
         logger = LearningLogger(path=exp_path, id="worker" + str(id), level = 'INFO')
         learner = self.learnerFactory.getLearnerOnDevice(executionMode, device)
         learner.setLearningLogger(logger)

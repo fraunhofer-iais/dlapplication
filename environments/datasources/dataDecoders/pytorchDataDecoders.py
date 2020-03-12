@@ -1,4 +1,5 @@
 import numpy as np
+from PIL import Image
 from environments.datasources.dataDecoders import DataDecoder, CSVDecoder
 
 #         self.filename = '/data/user/jsicking/vwplatform/experiments/data/textualMNIST/mnist_train.csv'
@@ -59,4 +60,23 @@ class VectorLabelDecoder(DataDecoder):
 
     def __str__(self):
         return "Vectors of numbers mapped to vectors of numbers"
+
+'''
+if the data file consists of image filenames this decoder allows to read the data
+here the label is also image - for example in cases for semantic segmentation
+'''
+class ImageFilesDecoder(DataDecoder):
+    def __call__(self, line):
+        filename_image = line.split("\t")[0]
+        with open(filename_image, 'rb') as f:
+            image = Image.open(f).convert('RGB')
+        filename_label = line.split("\t")[1].replace("\n", "").replace("\r", "")
+        with open(filename_label, 'rb') as f:
+            label = Image.open(f).convert('P')
+
+        return image, label
+
+    def __str__(self):
+        return "Images dataset"
+
 

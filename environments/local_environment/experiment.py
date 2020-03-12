@@ -60,7 +60,6 @@ class Experiment():
         for job in jobs:
             job.join()
         print('experiment done.')
-        #os.waitpid(-1, 0)
 
     def createCoordinator(self, exp_path):
         coordinator = Coordinator()

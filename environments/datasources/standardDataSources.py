@@ -16,20 +16,20 @@ class FileDataSource(DataSource):
         self._cache = cache
         self._decode_example = decodeLine
         self._indices = getattr(self, indices)(nodeId, numberOfNodes)
+        self._shuffle = shuffle
         if self._shuffle:
             np.random.shuffle(self._indices)
-        self._shuffle = shuffle
         self._examplesCounter = -1
         self._usedExamplesCounter = 0
 
     def prepare(self):
         if self._cache:
             self._cachedData = []
-            for l in open(self.filename, "r").readlines():
+            for l in open(self._filename, "r").readlines():
                 if len(l) > 2:
                     self._cachedData.append(l)
         else:
-            self._inputFileHandle = open(self.filename, "r")
+            self._inputFileHandle = open(self._filename, "r")
         
     def readLine(self):
         current_line = self._inputFileHandle.__next__()
@@ -111,7 +111,7 @@ class SVMLightDataSource(FileDataSource):
         self._examplesCount = 0
 
     def prepare(self):
-        X, y = load_svmlight_file(self.filename)
+        X, y = load_svmlight_file(self._filename)
         self.X = np.array(X.todense())
         self.y = y
 

@@ -26,9 +26,9 @@ if __name__ == "__main__":
     learningParams = {}
     lossFunction = "CrossEntropyLoss"
     batchSize = 8
+    delta = None
     sync = PeriodicSync()
     syncPeriod = 1
-    delta = None
     
     aggregator = Average()
     stoppingCriterion = MaxAmountExamples(2800)

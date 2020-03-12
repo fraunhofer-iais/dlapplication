@@ -37,7 +37,7 @@ if __name__ == "__main__":
     learningRate = 0.25
     lossFunction = "categorical_crossentropy"
     batchSize = 10
-    learnerFactory = KerasLearnerFactory(network=ResNet18_Cifar10_32(), updateRule=updateRule, learningRate=learningRate, lossFunction=lossFunction, batchSize=batchSize, syncPeriod=syncPeriod, delta=delta)
+    learnerFactory = KerasLearnerFactory(network=ResNet18_Cifar10_32(), updateRule=updateRule, learningRate=learningRate, lossFunction=lossFunction, batchSize=batchSize, syncPeriod=syncPeriod)
     initHandler = InitializationHandler()
 
     expFileName = os.path.join(os.getcwd(), os.path.basename(__file__))

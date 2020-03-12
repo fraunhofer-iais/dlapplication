@@ -33,7 +33,7 @@ if __name__ == "__main__":
     aggregator = Average()
     stoppingCriterion = MaxAmountExamples(2800)
     dsFactory = FileDataSourceFactory(filename = "../../../../data/textualMNIST/mnist_train.txt", decoder = MNISTDecoder(), numberOfNodes = numberOfNodes, indices = 'roundRobin', shuffle = False, cache = False)
-    learnerFactory = PytorchLearnerFactory(network=MnistNet(), updateRule=updateRule, learningRate=learningRate, learningParams=learningParams, lossFunction=lossFunction, batchSize=batchSize, syncPeriod=syncPeriod, delta=delta)
+    learnerFactory = PytorchLearnerFactory(network=MnistNet(), updateRule=updateRule, learningRate=learningRate, learningParams=learningParams, lossFunction=lossFunction, batchSize=batchSize, syncPeriod=syncPeriod)
     initHandler = InitializationHandler()
 
     exp = Experiment(executionMode = executionMode, messengerHost = messengerHost, messengerPort = messengerPort, 

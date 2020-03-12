@@ -39,7 +39,7 @@ if __name__ == "__main__":
     learningParams = {}
     lossFunction = "CrossEntropyLoss"
     batchSize = 8
-    learnerFactory = PytorchLearnerFactory(network=Cifar10ResNet50(), updateRule=updateRule, learningRate=learningRate, learningParams=learningParams, lossFunction=lossFunction, batchSize=batchSize, syncPeriod=syncPeriod, delta=delta)
+    learnerFactory = PytorchLearnerFactory(network=Cifar10ResNet50(), updateRule=updateRule, learningRate=learningRate, learningParams=learningParams, lossFunction=lossFunction, batchSize=batchSize, syncPeriod=syncPeriod)
     initHandler = InitializationHandler()
 
     expFileName = os.path.join(os.getcwd(), os.path.basename(__file__))

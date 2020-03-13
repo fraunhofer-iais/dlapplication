@@ -6,8 +6,8 @@ from environments.local_environment import Experiment
 from environments.datasources import FileDataSourceFactory
 from environments.datasources.dataDecoders.pytorchDataDecoders import MNISTDecoder
 from dlutils.models.pytorch.MNISTNetwork import MnistNet
-from DLplatform.synchronizing import PeriodicSync
-from DLplatform.aggregating import Average
+from DLplatform.synchronizing import DynamicSync
+from DLplatform.aggregating import GeometricMedian
 from DLplatform.learning.factories.pytorchLearnerFactory import PytorchLearnerFactory
 from DLplatform.stopping import MaxAmountExamples
 from DLplatform.coordinator import InitializationHandler
@@ -26,11 +26,11 @@ if __name__ == "__main__":
     learningParams = {}
     lossFunction = "CrossEntropyLoss"
     batchSize = 8
-    delta = None
-    sync = PeriodicSync()
+    delta = 1.
+    sync = DynamicSync(delta)
     syncPeriod = 1
     
-    aggregator = Average()
+    aggregator = GeometricMedian()
     stoppingCriterion = MaxAmountExamples(2800)
     dsFactory = FileDataSourceFactory(filename = "../../../../data/textualMNIST/mnist_train.txt", decoder = MNISTDecoder(), numberOfNodes = numberOfNodes, indices = 'roundRobin', shuffle = False, cache = False)
     learnerFactory = PytorchLearnerFactory(network=MnistNet(), updateRule=updateRule, learningRate=learningRate, learningParams=learningParams, lossFunction=lossFunction, batchSize=batchSize, syncPeriod=syncPeriod)

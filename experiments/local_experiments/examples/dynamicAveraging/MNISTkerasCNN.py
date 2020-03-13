@@ -5,7 +5,7 @@ sys.path.append("../../../../../dlplatform-dev")
 from environments.local_environment import Experiment
 from environments.datasources import FileDataSourceFactory
 from environments.datasources.dataDecoders.kerasDataDecoders import MNISTDecoder
-from dlapplication_utils.models.keras.MNISTNetwork import MNISTCNNNetwork
+from dlutils.models.keras.MNISTNetwork import MNISTCNNNetwork
 from DLplatform.synchronizing import DynamicHedgeSync
 from DLplatform.aggregating import Average
 from DLplatform.learning.factories.kerasLearnerFactory import KerasLearnerFactory

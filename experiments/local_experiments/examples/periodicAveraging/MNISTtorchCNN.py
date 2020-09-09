@@ -29,6 +29,8 @@ if __name__ == "__main__":
     delta = None
     sync = PeriodicSync()
     syncPeriod = 1
+    minStartNodes = 5
+    minStopNodes = 0
     
     aggregator = Average()
     stoppingCriterion = MaxAmountExamples(2800)
@@ -39,6 +41,7 @@ if __name__ == "__main__":
     exp = Experiment(executionMode = executionMode, messengerHost = messengerHost, messengerPort = messengerPort, 
         numberOfNodes = numberOfNodes, sync = sync, 
         aggregator = aggregator, learnerFactory = learnerFactory, 
-        dataSourceFactory = dsFactory, stoppingCriterion = stoppingCriterion, initHandler = initHandler)
+        dataSourceFactory = dsFactory, stoppingCriterion = stoppingCriterion, 
+        initHandler = initHandler, minStartNodes = minStartNodes, minStopNodes = minStopNodes)
     exp.run("MNISTtorchCNN")
 

@@ -13,7 +13,7 @@ import math
 import subprocess
 
 class Experiment():    
-    def __init__(self, executionMode, messengerHost, messengerPort, numberOfNodes, sync, aggregator, learnerFactory, dataSourceFactory, stoppingCriterion, initHandler = InitializationHandler(), sleepTime = 5):
+    def __init__(self, executionMode, messengerHost, messengerPort, numberOfNodes, sync, aggregator, learnerFactory, dataSourceFactory, stoppingCriterion, initHandler = InitializationHandler(), sleepTime = 5, minStartNodes=0, minStopNodes=0):
         self.executionMode = executionMode
         if executionMode == 'cpu':
             self.devices = None
@@ -40,13 +40,15 @@ class Experiment():
         self.initHandler = initHandler
         self._uniqueId = str(os.getpid())
         self.sleepTime = sleepTime
+        self.minStartNodes = minStartNodes
+        self.minStopNodes = minStopNodes
 
     def run(self, name):
         self.start_time = time.time()
         exp_path = name + "_" + self.getTimestamp()
         os.mkdir(exp_path)
         self.writeExperimentSummary(exp_path, name)
-        t = Process(target = self.createCoordinator, args=(exp_path, ), name = 'coordinator')    
+        t = Process(target = self.createCoordinator, args=(exp_path, self.minStartNodes, self.minStopNodes), name = 'coordinator')    
         #t.daemon = True
         t.start()
         jobs = [t]
@@ -61,8 +63,9 @@ class Experiment():
             job.join()
         print('experiment done.')
 
-    def createCoordinator(self, exp_path):
-        coordinator = Coordinator()
+    def createCoordinator(self, exp_path, minStartNodes, minStopNodes):
+        print("create coordinator with minStart", minStartNodes, "and minStop", minStopNodes)
+        coordinator = Coordinator(minStartNodes, minStopNodes)
         coordinator.setInitHandler(self.initHandler)
         comm = RabbitMQComm(hostname = self.messengerHost, port = self.messengerPort, user = 'guest', password = 'guest', uniqueId = self._uniqueId)
         os.mkdir(os.path.join(exp_path,'coordinator'))

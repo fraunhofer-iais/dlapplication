@@ -13,7 +13,7 @@ import math
 import subprocess
 
 class Experiment():    
-    def __init__(self, executionMode, messengerHost, messengerPort, numberOfNodes, sync, aggregator, learnerFactory, dataSourceFactory, stoppingCriterion, initHandler = InitializationHandler(), sleepTime = 5, minStartNodes=0, minStopNodes=0):
+    def __init__(self, executionMode, messengerHost, messengerPort, numberOfNodes, sync, aggregator, learnerFactory, dataSourceFactory, stoppingCriterion, initHandler = InitializationHandler(), dataScheduler = IntervalDataScheduler, minStartNodes=0, minStopNodes=0, sleepTime = 5):
         self.executionMode = executionMode
         if executionMode == 'cpu':
             self.devices = None
@@ -38,6 +38,7 @@ class Experiment():
         self.dataSourceFactory = dataSourceFactory
         self.stoppingCriterion = stoppingCriterion
         self.initHandler = initHandler
+        self.dataScheduler = dataScheduler
         self._uniqueId = str(os.getpid())
         self.sleepTime = sleepTime
         self.minStartNodes = minStartNodes
@@ -88,7 +89,7 @@ class Experiment():
             device = devices[id//modelsPer]
         nodeId = str(id)
         w = Worker(nodeId)
-        dataScheduler = IntervalDataScheduler()
+        dataScheduler = self.dataScheduler()
         dataSource = self.dataSourceFactory.getDataSource(nodeId = id)
         dataScheduler.setDataSource(source = dataSource)
         w.setDataScheduler(dataScheduler)

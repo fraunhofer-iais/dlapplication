@@ -25,9 +25,10 @@ class FileDataSource(DataSource):
     def prepare(self):
         if self._cache:
             self._cachedData = []
-            for l in open(self._filename, "r").readlines():
-                if len(l) > 2:
-                    self._cachedData.append(l)
+            with open(self._filename, "r").readlines() as lines:
+                for l in lines:
+                    if len(l) > 2:
+                        self._cachedData.append(l)
         else:
             self._inputFileHandle = open(self._filename, "r")
         

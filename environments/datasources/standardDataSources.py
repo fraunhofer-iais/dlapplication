@@ -32,11 +32,11 @@ class FileDataSource(DataSource):
             self._inputFileHandle = open(self._filename, "r")
         
     def readLine(self):
-        current_line = self._inputFileHandle.__next__()
+        current_line = self._inputFileHandle.readline()
         if current_line == "\n":
             self._inputFileHandle.close()
             self._inputFileHandle = open(self._filename, "r") 
-            current_line = self._inputFileHandle.__next__()
+            current_line = self._inputFileHandle.readline()
             self._examplesCounter = -1
             self.checkEpochEnd()
         return current_line

@@ -105,7 +105,7 @@ class Experiment():
         self.sync.setAggregator(self.aggregator)
         learner.setSynchronizer(self.sync)
         w.setLearner(learner)
-        print("create worker " + nodeId + "\n")
+        print("created worker " + nodeId + "\n")
         w.run()
     
     def getTimestamp(self):

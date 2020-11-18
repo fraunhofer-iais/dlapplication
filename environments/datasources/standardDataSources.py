@@ -11,7 +11,6 @@ The function that creates examples with labels is passed as a parameter
 class FileDataSource(DataSource):
     def __init__(self, filename, decodeLine, name, indices, nodeId, numberOfNodes, shuffle=False, cache=False):
         DataSource.__init__(self, name=name)
-
         self._filename = filename
         self._cache = cache
         self._decode_example = decodeLine

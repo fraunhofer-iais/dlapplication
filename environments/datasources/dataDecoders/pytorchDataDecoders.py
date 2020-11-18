@@ -16,8 +16,25 @@ class MNISTDecoder(CSVDecoder):
         
     def __call__(self, line):
         parsed_line = [float(c) for c in line.split(self._delimiter)]
-        image = np.asarray(parsed_line[1:], dtype='float32').reshape(1,28,28) / 255.0
         label = int(parsed_line[self._labelCol])
+        parsed_line.pop(self._labelCol)
+        image = np.asarray(parsed_line, dtype='float32').reshape(1,28,28) / 255.0
+        
+        return image, label
+    
+    def __str__(self):
+       return "MNIST from text file for pytorch"
+   
+class DigitDatasetsDecoder(CSVDecoder):    
+    def __init__(self, delimiter = ',', labelCol = 0):
+        CSVDecoder.__init__(self, delimiter, labelCol)
+        
+    def __call__(self, line):
+        parsed_line = [float(c) for c in line.split(self._delimiter)]
+        label = int(parsed_line[self._labelCol])
+        parsed_line.pop(self._labelCol)
+        image = np.asarray(parsed_line, dtype='float32').reshape(3,28,28)
+        
         return image, label
     
     def __str__(self):

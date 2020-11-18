@@ -116,6 +116,10 @@ class ResNet(nn.Module):
 
     def __str__(self):
         return "ResNET"
+
+class Cifar10ResNet18(ResNet):
+    def __init__(self):
+        ResNet.__init__(self, 18, 10)
     
 class Cifar10ResNet50(ResNet):
     def __init__(self):
